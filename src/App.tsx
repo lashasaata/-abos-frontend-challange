@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardLayout from './layouts/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import BuildingsPage from './pages/admin/BuildingsPage';
+import BuildingDetailsPage from './pages/admin/BuildingDetailsPage';
 import UsersPage from './pages/admin/UsersPage';
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ export default function App() {
             }>
               <Route index element={<DashboardPage />} />
               <Route path="buildings" element={<BuildingsPage />} />
+              <Route path="buildings/:buildingId" element={<BuildingDetailsPage />} />
               <Route path="users" element={
                 <AdminRoute>
                   <UsersPage />

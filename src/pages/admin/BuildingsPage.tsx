@@ -1,8 +1,14 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { getBuildings } from '../../features/buildings/api';
+import CreateBuildingModal from '../../features/buildings/components/CreateBuildingModal';
 import { Plus, Building2, MapPin, Loader2 } from 'lucide-react';
 
 export default function BuildingsPage() {
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const navigate = useNavigate();
+  
   const { data: buildings, isLoading } = useQuery({
     queryKey: ['buildings'],
     queryFn: getBuildings,
@@ -20,7 +26,10 @@ export default function BuildingsPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Buildings</h1>
-        <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button 
+          onClick={() => setCreateModalOpen(true)}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           <Plus className="h-5 w-5 mr-2" />
           Add Building
         </button>
@@ -41,7 +50,12 @@ export default function BuildingsPage() {
             </div>
             <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
                 <span className="text-xs text-gray-400">ID: {building.id.slice(0, 8)}...</span>
-                <button className="text-sm font-medium text-blue-600 hover:text-blue-700">View Details</button>
+                <button 
+                  onClick={() => navigate(`/dashboard/buildings/${building.id}`)}
+                  className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                >
+                  View Details
+                </button>
             </div>
           </div>
         ))}
@@ -51,6 +65,11 @@ export default function BuildingsPage() {
             </div>
         )}
       </div>
+
+      <CreateBuildingModal 
+        isOpen={isCreateModalOpen} 
+        onClose={() => setCreateModalOpen(false)} 
+      />
     </div>
   );
 }
