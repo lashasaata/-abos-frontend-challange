@@ -5,9 +5,12 @@ import { getBuildings } from '../../features/buildings/api';
 import CreateBuildingModal from '../../features/buildings/components/CreateBuildingModal';
 import { Plus, Building2, MapPin, Loader2 } from 'lucide-react';
 
+import { useAuth } from '../../features/auth/AuthContext';
+
 export default function BuildingsPage() {
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const { data: buildings, isLoading } = useQuery({
     queryKey: ['buildings'],
@@ -26,13 +29,15 @@ export default function BuildingsPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Buildings</h1>
-        <button 
-          onClick={() => setCreateModalOpen(true)}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          <Plus className="h-5 w-5 mr-2" />
-          Add Building
-        </button>
+        {user?.role !== 'resident' && (
+            <button 
+              onClick={() => setCreateModalOpen(true)}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Plus className="h-5 w-5 mr-2" />
+              Add Building
+            </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

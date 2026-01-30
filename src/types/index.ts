@@ -30,3 +30,17 @@ export interface Ticket {
   status: string;
   createdAt: string;
 }
+
+export interface Membership {
+  id: string;
+  userId: string;
+  buildingId: string;
+  unitId?: string;
+  status: 'pending' | 'active' | 'rejected';
+  role?: 'resident' | 'owner' | 'admin';
+  roleInBuilding?: 'resident' | 'owner' | 'admin';
+  user?: User;
+  unit?: Unit;
+  createdAt: string;
+  verifiedAt?: string | null;
+}

@@ -47,6 +47,7 @@ export default function App() {
               <Route index element={<DashboardPage />} />
               <Route path="buildings" element={<BuildingsPage />} />
               <Route path="buildings/:buildingId" element={<BuildingDetailsPage />} />
+              <Route path="units" element={<BuildingDetailsPage forcedBuildingId="c4ef2c84-bab3-4e90-9331-91bf57b1218d" />} />
               <Route path="users" element={
                 <AdminRoute>
                   <UsersPage />

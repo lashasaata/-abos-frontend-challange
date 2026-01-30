@@ -19,10 +19,18 @@ export default function DashboardLayout() {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Buildings', href: '/dashboard/buildings', icon: Building2 },
+  ];
+
+  if (user?.role === 'resident') {
+    navigation.push({ name: 'Units', href: '/dashboard/units', icon: Building2 });
+  } else {
+    navigation.push({ name: 'Buildings', href: '/dashboard/buildings', icon: Building2 });
+  }
+
+  navigation.push(
     { name: 'Tickets', href: '/dashboard/tickets', icon: Ticket },
     { name: 'Community', href: '/dashboard/community', icon: MessageSquare },
-  ];
+  );
 
   // Add Users link only for Super Admins
   if (user?.role === 'super_admin') {
