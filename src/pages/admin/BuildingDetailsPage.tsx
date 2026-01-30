@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBuildingById, getBuildingUnits } from '../../features/buildings/api';
-import { ArrowLeft, Building2, MapPin, Loader2, Home } from 'lucide-react';
+import CreateUnitModal from '../../features/buildings/components/CreateUnitModal';
+import { ArrowLeft, Building2, MapPin, Loader2, Home, Plus } from 'lucide-react';
 
 export default function BuildingDetailsPage() {
   const { buildingId } = useParams();
   const navigate = useNavigate();
+  const [isCreateUnitModalOpen, setCreateUnitModalOpen] = useState(false);
 
   const { data: building, isLoading: isBuildingLoading } = useQuery({
     queryKey: ['building', buildingId],
@@ -77,7 +80,13 @@ export default function BuildingDetailsPage() {
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
         <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Units</h2>
-            {/* Add Unit Button Placeholder */}
+            <button 
+              onClick={() => setCreateUnitModalOpen(true)}
+              className="flex items-center px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Plus className="h-4 w-4 mr-1.5" />
+              Add Unit
+            </button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
@@ -120,6 +129,12 @@ export default function BuildingDetailsPage() {
           </table>
         </div>
       </div>
+
+      <CreateUnitModal 
+        isOpen={isCreateUnitModalOpen} 
+        onClose={() => setCreateUnitModalOpen(false)} 
+        buildingId={building.id}
+      />
     </div>
   );
 }

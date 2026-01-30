@@ -20,3 +20,8 @@ export const createBuilding = async (data: { name: string; address: string }) =>
   const response = await apiClient.post<Building>('/buildings/', data);
   return response.data;
 };
+
+export const createBuildingUnits = async (buildingId: string, units: { unitNumber: string; floor: number }[]) => {
+  const response = await apiClient.post<{ units: Unit[] }>(`/buildings/${buildingId}/units`, { units });
+  return response.data.units;
+};
